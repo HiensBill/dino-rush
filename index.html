@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dino Rush: 完美修复版</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <div class="top-bar ui-layer">
+            <div class="score-board">
+                <span id="scoreDisplay">得分 0</span>
+                <br>
+                <span id="speedDisplay" style="font-size:10px;color:#888">速度 6.5</span>
+            </div>
+            <div class="user-btn" id="userInfo" onclick="showLogin()">👤 未登录</div>
+        </div>
+
+        <div class="buff-bar ui-layer" id="buffBar"></div>
+
+        <div class="game-container" id="container">
+            <canvas id="gameCanvas"></canvas>
+            
+            <div class="tutorial" id="tutorialText">
+                按住屏幕蓄力，松手跳跃
+            </div>
+        </div>
+        
+        <div id="game-message" class="ui-layer">
+            <h2 class="game-over-title">游戏结束</h2>
+            <p id="final-score">得分: 0</p>
+            <div class="btn-group">
+                <button class="btn btn-green" onclick="restartGame()">再试一次</button>
+                <button class="btn btn-blue" onclick="showRank()">🏆 排行榜</button>
+            </div>
+            <button class="btn login-btn-over" id="loginBtnOver" onclick="showLogin()">💾 登录保存分数</button>
+        </div>
+    </div>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h3>玩家登录 / 存档</h3>
+            <p class="modal-tip">输入手机号自动读取或创建记录</p>
+            <input type="tel" id="inputPhone" placeholder="手机号 (唯一ID)" maxlength="11">
+            <input type="text" id="inputNick" placeholder="昵称 (选填)" maxlength="8">
+            <div class="btn-group">
+                <button class="btn btn-green" onclick="doLogin()">确定登录</button>
+                <button class="btn btn-gray" onclick="closeModal('loginModal')">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="rankModal">
+        <div class="modal-content">
+            <h3>🏆 全服 TOP 10</h3>
+            <div id="rankLoading">正在连接服务器...</div>
+            <ul class="rank-list" id="rankList"></ul>
+            <button class="btn btn-gray rank-close-btn" onclick="closeModal('rankModal')">关 闭</button>
+        </div>
+    </div>
+
+    <script src="core.js"></script>
+</body>
+</html>
