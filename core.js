@@ -1,5 +1,5 @@
 // === 1. API Address ===
-const API_URL = "https://dino-rank-v-xahmxcfdpw.cn-shenzhen.fcapp.run"; 
+const API_URL = "https://dino-rank-v-xahmxdfdpw.cn-shenzhen.fcapp.run"; 
 
 // === 2. Core Constants ===
 const LOGICAL_WIDTH = 800;
