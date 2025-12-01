@@ -73,9 +73,12 @@ window.showLogin = () => document.getElementById('loginModal').style.display = '
 window.closeModal = (id) => document.getElementById(id).style.display = 'none';
 
 window.doLogin = () => {
-    const phone = document.getElementById('inputPhone').value.trim();
+    const phone = document.getElementById('inputPhone').value.trim(); // 这里的 phone 实际是玩家ID
     const nick = document.getElementById('inputNick').value.trim();
-    if (!phone) { alert('Please enter phone number'); return; }
+    if (!phone) { 
+        alert('请输入玩家ID（可以是手机号）'); 
+        return; 
+    }
     currentUser = { phone, nickname: nick || phone };
     localStorage.setItem('dino_user', JSON.stringify(currentUser));
     if (userInfoDiv) userInfoDiv.innerText = `👤 ${currentUser.nickname}`;
@@ -83,6 +86,7 @@ window.doLogin = () => {
     if (score > 5) uploadScore(score);
     if (loginBtnOver) loginBtnOver.style.display = 'none';
 };
+
 
 // 干净版排行榜逻辑
 window.showRank = () => {
@@ -111,21 +115,28 @@ window.showRank = () => {
                 return;
             }
 
-            data.forEach((item, idx) => {
-                const li = document.createElement('li');
-                li.className = 'rank-item';
-
-                let m = `${idx + 1}.`;
-                if (idx === 0) m = '🥇';
-                else if (idx === 1) m = '🥈';
-                else if (idx === 2) m = '🥉';
-
-                const name = item.nickname || '玩家';
-                const scoreVal = (item.high_score !== undefined ? item.high_score : item.score) ?? 0;
-
-                li.innerHTML = `<span>${m} ${name}</span> <strong>${scoreVal}</strong>`;
-                list.appendChild(li);
-            });
+			data.forEach((item, idx) => {
+			    const li = document.createElement('li');
+			    li.className = 'rank-item';
+			
+			    let m = `${idx + 1}.`;
+			    if (idx === 0) m = '🥇';
+			    else if (idx === 1) m = '🥈';
+			    else if (idx === 2) m = '🥉';
+			
+			    const name = item.nickname || '玩家';
+			    const scoreVal = (item.high_score !== undefined ? item.high_score : item.score) ?? 0;
+			
+			    const leftSpan = document.createElement('span');
+			    leftSpan.textContent = `${m} ${name}`;
+			
+			    const rightStrong = document.createElement('strong');
+			    rightStrong.textContent = String(scoreVal);
+			
+			    li.appendChild(leftSpan);
+			    li.appendChild(rightStrong);
+			    list.appendChild(li);
+			});
         })
         .catch(err => {
             console.error('RANK_ERROR:', err);
