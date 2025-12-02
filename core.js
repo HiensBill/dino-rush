@@ -8,6 +8,14 @@ const GROUND_Y = 185;
 
 const UI_FONT = '"Microsoft YaHei", "PingFang SC", "Segoe UI", system-ui, sans-serif';
 
+// === Dino Sprite ===
+const dinoImg = new Image();
+dinoImg.src = 'dino.png';
+let dinoImgLoaded = false;
+dinoImg.onload = () => {
+    dinoImgLoaded = true;
+};
+
 // === 3. DOM Elements ===
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -392,9 +400,34 @@ const dino = {
             const p = this.chargePower / this.maxCharge;
             ctx.fillStyle = p > 0.8 ? '#ff4444' : (p > 0.5 ? '#ffbb33' : '#2ecc71'); ctx.fillRect(bx + 1, by + 1, 38 * p, 4);
         }
-        drawBlockyDino(ctx, this.x, drawY, s.w, s.h, currentBiome.dino);
+
+        // 如果使用 PNG 贴图，则在这里画恐龙；否则回退到原来的像素方块恐龙
+        if (activeBuffs.shield && dinoImgLoaded) {
+            ctx.save();
+            ctx.strokeStyle = '#00c851';
+            ctx.lineWidth = 3;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#00ffff';
+            ctx.beginPath();
+            ctx.arc(this.x + s.w / 2, drawY + s.h / 2, s.w * 0.8, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        if (dinoImgLoaded) {
+            ctx.drawImage(
+                dinoImg,
+                0, 0, dinoImg.width, dinoImg.height, // 源区域：整张图
+                this.x, drawY, s.w, s.h              // 目标区域：恐龙在游戏里的逻辑大小
+            );
+        } else {
+            // 图片还没加载好时，先继续用老的像素恐龙顶一下
+            drawBlockyDino(ctx, this.x, drawY, s.w, s.h, currentBiome.dino);
+        }
+
         ctx.restore();
     },
+
 
     update: function () {
         if (currentState !== STATE.PLAYING) { this.draw(); return; }
