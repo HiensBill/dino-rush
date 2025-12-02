@@ -731,17 +731,6 @@ function drawHUD() {
         speedDisplay.innerText = `速度：${gameSpeed.toFixed(1)}`;
     }
 
-    // ===== ② 右上角（画在 canvas 上）：得分 / 速度 左对齐 =====
-    //ctx.fillStyle = currentBiome.fg;
-    //ctx.textAlign = "right";
-
-    //const hudX = 750;  // 可以按你喜好微调
-    // 得分
-    //ctx.font = "bold 20px Courier New";
-    //ctx.fillText(`得分：${Math.floor(score)}`, hudX, 30);
-    // 速度
-    //ctx.font = "12px Courier New";
-    //ctx.fillText(`速度：${gameSpeed.toFixed(1)}`, hudX, 48);
 
     // ===== 左上角 Buff 图标（圆角） =====
     let iconX = 30;
